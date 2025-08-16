@@ -1,0 +1,43 @@
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+  background-color: #fff;
+  border: 1px solid #dbdbdb;
+  padding: 10px;
+  border-radius: 5px;
+  width: 400px;
+  transition: 0.2s;
+}
+
+.main:hover {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.img {
+  width: 40px;
+}
+
+.title {
+  font-size: 24px;
+  color: #222;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cross {
+  width: 30px;
+}
+
+.img,
+.cross {
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.img:hover,
+.cross:hover {
+  scale: 1.03;
+}

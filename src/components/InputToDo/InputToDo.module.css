@@ -1,0 +1,24 @@
+.main {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #fff;
+}
+
+.input,
+.btn {
+  font-size: 30px;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  border: 1px solid #dbdbdb;
+  transition: box-shadow 0.2s ease, border 0.2s ease;
+  background: #fff;
+}
+
+.input:hover,
+.btn:hover {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
