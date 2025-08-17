@@ -1,25 +1,64 @@
-import "./ToDoList.module.css";
+import styles from "./ToDoList.module.css";
 
 import ToDoCell from "../ToDoCell/ToDoCell";
 import TotalCount from "../TotalCount/TotalCount";
-import { useQuery } from "@apollo/client";
-import { ALL_TODO } from "../../apollo/graphql/queries";
+import { useQuery, useMutation } from "@apollo/client";
+import {
+  ALL_TODO,
+  UPDATE_TODO,
+  DELETE_TODO,
+} from "../../apollo/graphql/queries";
 
 function ToDoList() {
   const { loading, error, data } = useQuery(ALL_TODO);
+  const [updateTodo, { error: updateError }] = useMutation(UPDATE_TODO);
+  //   const [deleteTodo, { error: deleteError }] = useMutation(DELETE_TODO, {
+  //     update(cache, { data: { deleteTodo } }) {
+  //       cache.modify({
+  //         fields: {
+  //           allTodos(currentTodos = []) {
+  //             return currentTodos.filter(
+  //               (todo) => todo.__ref !== `Todo:${deleteTodo.id}`
+  //             );
+  //           },
+  //         },
+  //       });
+  //     },
+  //   });
+
+  const [deleteTodo, { error: deleteError }] = useMutation(DELETE_TODO, {
+    update(cache, { data: { removeTodo } }) {
+      cache.modify({
+        fields: {
+          allTodos(currentTodos = []) {
+            return currentTodos.filter(
+              (todo) => todo.__ref !== `Todo:${removeTodo.id}`
+            );
+          },
+        },
+      });
+    },
+  });
 
   if (loading) {
     return "Загрузка данных";
   }
 
-  if (error) {
-    return `Ошибка: ${error.message}`;
+  if (error || updateError || deleteError) {
+    return <div className={styles.error}>Ошибка</div>;
   }
 
   return (
     <>
       {data.todos.map((item) => (
-        <ToDoCell key={item.id} title={item.title} completed={item.completed} />
+        <ToDoCell
+          key={item.id}
+          id={item.id}
+          onToggle={updateTodo}
+          onDelete={deleteTodo}
+          title={item.title}
+          completed={item.completed}
+        />
       ))}
 
       <TotalCount length={data.todos.length} />

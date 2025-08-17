@@ -7,7 +7,7 @@ import { useState } from "react";
 
 import EditTitle from "./EditTitle/EditTitle";
 
-function ToDoCell({ title, completed, onDelete, onUpdate }) {
+function ToDoCell({ id, title, completed, onDelete, onUpdate, onToggle }) {
   const [completeStatus, setCompleteStatus] = useState(completed);
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
@@ -42,7 +42,15 @@ function ToDoCell({ title, completed, onDelete, onUpdate }) {
           className={styles.img}
           src={completeStatus ? checked : unchecked}
           alt=""
-          onClick={changeCompleteStatus}
+          onClick={() => {
+            changeCompleteStatus();
+            onToggle({
+              variables: {
+                id,
+                completed: !completed,
+              },
+            });
+          }}
         />
         {isEditing ? (
           <EditTitle
@@ -56,7 +64,18 @@ function ToDoCell({ title, completed, onDelete, onUpdate }) {
             {title}
           </div>
         )}
-        <img onClick={onDelete} className={styles.cross} src={cross} alt="" />
+        <img
+          onClick={() =>
+            onDelete({
+              variables: {
+                id,
+              },
+            })
+          }
+          className={styles.cross}
+          src={cross}
+          alt=""
+        />
       </div>
     </>
   );
