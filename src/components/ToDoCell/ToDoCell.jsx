@@ -7,8 +7,8 @@ import { useState } from "react";
 
 import EditTitle from "./EditTitle/EditTitle";
 
-function ToDoCell({ title, isComplete, onDelete, onUpdate }) {
-  const [completeStatus, setCompleteStatus] = useState(isComplete);
+function ToDoCell({ title, completed, onDelete, onUpdate }) {
+  const [completeStatus, setCompleteStatus] = useState(completed);
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
 
