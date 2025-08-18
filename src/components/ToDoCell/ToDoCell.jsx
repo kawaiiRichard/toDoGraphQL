@@ -4,13 +4,17 @@ import checked from "../../assets/svg/checkbox-check.svg";
 import unchecked from "../../assets/svg/checkbox-unchecked.svg";
 import cross from "../../assets/svg/cross.svg";
 import { useState } from "react";
+import { useMutation } from "@apollo/client";
 
 import EditTitle from "./EditTitle/EditTitle";
+import { UPDATE_TITLE } from "../../apollo/graphql/queries";
 
 function ToDoCell({ id, title, completed, onDelete, onUpdate, onToggle }) {
   const [completeStatus, setCompleteStatus] = useState(completed);
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
+
+  const [updateTitle, { error }] = useMutation(UPDATE_TITLE);
 
   const changeCompleteStatus = () => {
     setCompleteStatus(!completeStatus);
@@ -24,9 +28,22 @@ function ToDoCell({ id, title, completed, onDelete, onUpdate, onToggle }) {
     setNewTitle(e.target.value);
   };
 
-  const handleBlur = () => {
+  const handleBlur = async () => {
     setIsEditing(false);
-    onUpdate(newTitle);
+    if (newTitle !== title) {
+      try {
+        await updateTitle({
+          variables: {
+            id,
+            title: newTitle,
+          },
+        });
+        onUpdate(newTitle);
+      } catch (err) {
+        console.error("Failed to update title:", err);
+        setNewTitle(title);
+      }
+    }
   };
 
   const handleKeyDown = (event) => {

@@ -34,6 +34,15 @@ export const UPDATE_TODO = gql`
   }
 `;
 
+export const UPDATE_TITLE = gql`
+  mutation UpdateTitle($id: ID!, $title: String) {
+    updateTodo(id: $id, title: $title) {
+      id
+      title
+    }
+  }
+`;
+
 export const DELETE_TODO = gql`
   mutation deleteTodo($id: ID!) {
     removeTodo(id: $id) {

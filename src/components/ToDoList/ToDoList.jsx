@@ -12,19 +12,6 @@ import {
 function ToDoList() {
   const { loading, error, data } = useQuery(ALL_TODO);
   const [updateTodo, { error: updateError }] = useMutation(UPDATE_TODO);
-  //   const [deleteTodo, { error: deleteError }] = useMutation(DELETE_TODO, {
-  //     update(cache, { data: { deleteTodo } }) {
-  //       cache.modify({
-  //         fields: {
-  //           allTodos(currentTodos = []) {
-  //             return currentTodos.filter(
-  //               (todo) => todo.__ref !== `Todo:${deleteTodo.id}`
-  //             );
-  //           },
-  //         },
-  //       });
-  //     },
-  //   });
 
   const [deleteTodo, { error: deleteError }] = useMutation(DELETE_TODO, {
     update(cache, { data: { removeTodo } }) {

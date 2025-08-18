@@ -10,6 +10,7 @@ function EditTitle({ newTitle, handleInputChange, handleBlur, handleKeyDown }) {
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
         className={styles.main}
+        autoFocus
       />
     </>
   );
